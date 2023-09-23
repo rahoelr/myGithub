@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:gravity="center_horizontal"
-    tools:context=".ui.DetailUserAct">
+    tools:context=".ui.DetailAct">
 
     <androidx.cardview.widget.CardView
         android:layout_marginTop="10dp"
@@ -29,7 +29,7 @@
         android:id="@+id/tv_detail_user"
         android:textSize="22sp"
         android:textStyle="bold"
-        android:hint="Rahul"
+        android:text=""
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -38,7 +38,7 @@
         android:id="@+id/tv_detail_user_2"
         android:textSize="18sp"
         android:textStyle="italic"
-        android:hint="Rahul"
+        android:text=""
         android:layout_marginTop="7dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -52,7 +52,7 @@
 
         <TextView
             android:id="@+id/tv_followers"
-            android:hint="34"
+            android:text=""
             android:textSize="18sp"
             android:textStyle="bold"
             android:paddingHorizontal="10dp"
@@ -68,7 +68,7 @@
 
         <TextView
             android:id="@+id/tv_following"
-            android:hint="31"
+            android:text=""
             android:textSize="18sp"
             android:textStyle="bold"
             android:paddingHorizontal="10dp"
@@ -84,5 +84,17 @@
             android:layout_height="wrap_content"/>
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
 </LinearLayout>

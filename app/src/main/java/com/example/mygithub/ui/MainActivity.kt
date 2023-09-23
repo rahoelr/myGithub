@@ -1,5 +1,6 @@
 package com.example.mygithub.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
         binding.recyclerView.addItemDecoration(itemDecoration)
         binding.recyclerView.adapter = adapter
+
 
         binding.searchView.setupWithSearchBar(binding.searchBar)
         with(binding){

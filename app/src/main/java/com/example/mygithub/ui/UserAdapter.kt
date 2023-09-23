@@ -1,7 +1,9 @@
 package com.example.mygithub.ui
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -29,7 +31,17 @@ class UserAdapter : ListAdapter<ItemsItem, UserAdapter.MyViewHolder>(DIFF_CALLBA
             Glide.with(binding.root.context)
                 .load(user.avatarUrl)
                 .into(binding.itemImageUser)
+
+            binding.root.setOnClickListener{
+                val userName =  user?.login
+                Toast.makeText(binding.root.context, "${userName}", Toast.LENGTH_SHORT).show()
+                val intent = Intent(binding.root.context, DetailAct::class.java)
+                intent.putExtra("userName", userName) // Pass the userName to DetailAct
+                binding.root.context.startActivity(intent)
+            }
         }
+
+
     }
 
     companion object {
