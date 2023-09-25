@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class ApiConfig {
     companion object {
         private const val BASE_URL = "https://api.github.com/"
-        private const val AUTH_TOKEN = "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"
+        private const val AUTH_TOKEN = "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"
 
         fun getApiService(): ApiService {
             val authInterceptor = Interceptor { chain ->
