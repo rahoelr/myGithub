@@ -25,26 +25,28 @@ class DetailAct : AppCompatActivity() {
             R.string.tab_text_1,
             R.string.tab_text_2,
         )
+
+        const val ARG_USERNAME = "userName"
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val username = intent.getStringExtra("userName")
+        val username = intent.getStringExtra(ARG_USERNAME)
         if (username != null) {
             getDetailUser(username)
+            val sectionsPagerAdapter = SectionsPagerAdapter(this)
+            sectionsPagerAdapter.username = username
+            val viewPager: ViewPager2 = binding.viewPager
+            viewPager.adapter = sectionsPagerAdapter
+            val tabs: TabLayout = binding.tabs
+            TabLayoutMediator(tabs, viewPager){ tab, position ->
+                tab.text = resources.getString(TAB_TITLES[position])
+            }.attach()
+
+            supportActionBar?.elevation = 0f
         }
-
-        val sectionsPagerAdapter = SectionsPagerAdapter(this)
-        val viewPager: ViewPager2 = binding.viewPager
-        viewPager.adapter = sectionsPagerAdapter
-        val tabs: TabLayout = binding.tabs
-        TabLayoutMediator(tabs, viewPager){ tab, position ->
-            tab.text = resources.getString(TAB_TITLES[position])
-        }.attach()
-
-        supportActionBar?.elevation = 0f
 
     }
 
@@ -71,15 +73,6 @@ class DetailAct : AppCompatActivity() {
                             .load(userResponse.avatarUrl)
                             .into(binding.itemImageDetailUser)
                     }
-                    val bundle = Bundle()
-                    bundle.putString("userName", username)
-
-                    val fragment = DetailUserFragment()
-                    fragment.arguments = bundle
-
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_followers, fragment)
-                        .commit()
                 }
             }
 
