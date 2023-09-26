@@ -32,8 +32,8 @@ class UserAdapter : ListAdapter<ItemsItem, UserAdapter.MyViewHolder>(DIFF_CALLBA
                 .load(user.avatarUrl)
                 .into(binding.itemImageUser)
 
-            binding.root.setOnClickListener{
-                val userName =  user?.login
+            binding.root.setOnClickListener {
+                val userName = user?.login
                 Toast.makeText(binding.root.context, "${userName}", Toast.LENGTH_SHORT).show()
                 val intent = Intent(binding.root.context, DetailAct::class.java)
                 intent.putExtra("userName", userName) // Pass the userName to DetailAct

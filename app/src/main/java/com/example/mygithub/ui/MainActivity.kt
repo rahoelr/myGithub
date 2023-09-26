@@ -4,21 +4,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.mygithub.data.response.ItemsItem
-import com.example.mygithub.data.response.UserResponse
-import com.example.mygithub.data.retrofit.ApiConfig
 import com.example.mygithub.databinding.ActivityMainBinding
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: UserAdapter
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,42 +33,34 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.searchView.setupWithSearchBar(binding.searchBar)
-        with(binding){
+        with(binding) {
             searchView
                 .editText
                 .setOnEditorActionListener { textView, actionId, event ->
                     searchBar.text = searchView.text
                     searchView.hide()
-                    findUser(searchView.text.toString())
+                    viewModel.findUser(searchView.text.toString())
                     Toast.makeText(this@MainActivity, searchView.text, Toast.LENGTH_SHORT).show()
                     false
 
                 }
         }
 
-        findUser("rahul")
-    }
-
-    private fun findUser(q: String) {
-        showLoading(true)
-        val client = ApiConfig.getApiService().getUser(q)
-        client.enqueue(object : Callback<UserResponse> {
-            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
-                showLoading(false)
-                if (response.isSuccessful) {
-                    val responseBody = response.body()
-                    if (responseBody != null) {
-                        val users: List<ItemsItem> = responseBody.items
-                        adapter.submitList(users)
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                showLoading(false)
-            }
+        viewModel.users.observe(this, Observer { users ->
+            adapter.submitList(users)
         })
+
+        viewModel.isLoading.observe(this, Observer { isLoading ->
+            showLoading(isLoading)
+        })
+
+        viewModel.searchResult.observe(this, Observer { searchResult ->
+            adapter.submitList(searchResult)
+        })
+
+        viewModel.findUser("rahul")
     }
+
 
     private fun showLoading(isLoading: Boolean) {
         if (isLoading) {

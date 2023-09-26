@@ -4,21 +4,20 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
+import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.mygithub.R
-import com.example.mygithub.data.response.DetailUserResponse
-import com.example.mygithub.data.retrofit.ApiConfig
 import com.example.mygithub.databinding.ActivityDetailBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import androidx.lifecycle.ViewModelProvider
 
 class DetailAct : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
+    private lateinit var viewModel: DetailViewModel
+
     companion object {
         @StringRes
         private val TAB_TITLES = intArrayOf(
@@ -28,6 +27,7 @@ class DetailAct : AppCompatActivity() {
 
         const val ARG_USERNAME = "userName"
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
@@ -35,52 +35,35 @@ class DetailAct : AppCompatActivity() {
 
         val username = intent.getStringExtra(ARG_USERNAME)
         if (username != null) {
-            getDetailUser(username)
+            viewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
+
+            viewModel.loadUserDetail(username)
+
+            viewModel.userDetail.observe(this, Observer { userDetail ->
+                binding.tvDetailUser.text = userDetail?.login
+                binding.tvDetailUser2.text = userDetail?.name
+                binding.tvFollowers.text = userDetail?.followers.toString()
+                binding.tvFollowing.text = userDetail?.following.toString()
+                Glide.with(binding.root.context)
+                    .load(userDetail?.avatarUrl)
+                    .into(binding.itemImageDetailUser)
+            })
+
+            viewModel.isLoading.observe(this, Observer { isLoading ->
+                showLoading(isLoading)
+            })
+
             val sectionsPagerAdapter = SectionsPagerAdapter(this)
             sectionsPagerAdapter.username = username
             val viewPager: ViewPager2 = binding.viewPager
             viewPager.adapter = sectionsPagerAdapter
             val tabs: TabLayout = binding.tabs
-            TabLayoutMediator(tabs, viewPager){ tab, position ->
+            TabLayoutMediator(tabs, viewPager) { tab, position ->
                 tab.text = resources.getString(TAB_TITLES[position])
             }.attach()
 
             supportActionBar?.elevation = 0f
         }
-
-    }
-
-    private fun getDetailUser(username: String) {
-        showLoading(true)
-        val apiService = ApiConfig.getApiService()
-        val call = apiService.getDetailUser(username)
-
-        call.enqueue(object : Callback<DetailUserResponse> {
-            override fun onResponse(
-                call: Call<DetailUserResponse>,
-                response: Response<DetailUserResponse>
-            ) {
-                showLoading(false)
-                if (response.isSuccessful) {
-                    val userResponse = response.body()
-                    if (userResponse != null) {
-                        // Update UI with user details
-                        binding.tvDetailUser.text = userResponse.login
-                        binding.tvDetailUser2.text = userResponse.name
-                        binding.tvFollowers.text = userResponse.followers.toString()
-                        binding.tvFollowing.text = userResponse.following.toString()
-                        Glide.with(binding.root.context)
-                            .load(userResponse.avatarUrl)
-                            .into(binding.itemImageDetailUser)
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<DetailUserResponse>, t: Throwable) {
-                showLoading(false)
-            }
-
-        })
     }
 
     private fun showLoading(isLoading: Boolean) {

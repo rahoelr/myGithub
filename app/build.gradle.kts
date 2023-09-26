@@ -55,5 +55,7 @@ dependencies {
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
     implementation ("androidx.viewpager2:viewpager2:1.0.0")
     implementation ("androidx.fragment:fragment:1.3.6")
-
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation ("androidx.activity:activity-ktx:1.7.2")
+    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
 }

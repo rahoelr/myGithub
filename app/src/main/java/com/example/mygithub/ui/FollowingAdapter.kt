@@ -1,9 +1,7 @@
 package com.example.mygithub.ui
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +14,7 @@ class FollowingAdapter :
     ListAdapter<FollowingResponseItem, FollowingAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
     class MyViewHolder(val binding: ItemReviewBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(review: FollowingResponseItem){
+        fun bind(review: FollowingResponseItem) {
             binding.tvItem.text = review.login
             binding.idTvUser.text = review.id.toString()
 
