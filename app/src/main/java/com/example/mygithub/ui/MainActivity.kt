@@ -6,10 +6,16 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mygithub.databinding.ActivityMainBinding
+import com.example.mygithub.setting.SettingPreferences
+import com.example.mygithub.setting.ThemeSetting
+import com.example.mygithub.setting.dataStore
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,6 +37,17 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.addItemDecoration(itemDecoration)
         binding.recyclerView.adapter = adapter
 
+        val pref = SettingPreferences.getInstance(application.dataStore)
+        val isDarkModeActive = runBlocking {
+            pref.getThemeSetting().first()
+        }
+
+        if (isDarkModeActive) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+
 
         binding.searchView.setupWithSearchBar(binding.searchBar)
         with(binding) {
@@ -44,6 +61,11 @@ class MainActivity : AppCompatActivity() {
                     false
 
                 }
+        }
+
+        binding.fabSetting.setOnClickListener{
+            val themeAct = Intent(this@MainActivity, ThemeSetting::class.java)
+            startActivity(themeAct)
         }
 
         viewModel.users.observe(this, Observer { users ->
