@@ -41,11 +41,11 @@ class FavoriteRepository(application: Application) {
 
     fun setFavoriteUser(favoriteUser: FavoriteUser, isFavorite: Boolean) {
         if (isFavorite) {
-            // Jika isFavorite adalah true, tambahkan ke daftar favorit
             insert(favoriteUser)
         } else {
-            // Jika isFavorite adalah false, hapus dari daftar favorit
             delete(favoriteUser.id)
         }
     }
+
+
 }

@@ -43,7 +43,6 @@ class DetailAct : AppCompatActivity() {
 
         val username = intent.getStringExtra(ARG_USERNAME)
 
-        // Menggunakan ViewModelFactory untuk membuat ViewModel
         viewModel = ViewModelProvider(this, ViewModelFactory(application)).get(DetailViewModel::class.java)
 
         if (username != null) {
@@ -58,7 +57,6 @@ class DetailAct : AppCompatActivity() {
                     .load(userDetail?.avatarUrl)
                     .into(binding.itemImageDetailUser)
 
-                // Memeriksa apakah pengguna ada dalam database favorit
                 checkIfUserIsFavorite(userDetail?.login, userDetail?.id ?: 0)
             })
 
@@ -96,13 +94,14 @@ class DetailAct : AppCompatActivity() {
                     binding.fabFavorite.setImageResource(R.drawable.baseline_favorite_border_24)
                 }
 
-                // Menambahkan onClickListener ke tombol favorit
                 binding.fabFavorite.setOnClickListener {
                     if (isFavorite) {
                         viewModel.delete(userId)
+                        showToast("User berhasil dihapus dari favorit")
                     } else {
                         val favoriteUser = FavoriteUser(userId, username)
                         viewModel.insert(favoriteUser)
+                        showToast("User berhasil ditambahkan ke favorite")
                     }
                 }
             })
@@ -115,5 +114,9 @@ class DetailAct : AppCompatActivity() {
         } else {
             binding.progressBar.visibility = View.GONE
         }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }

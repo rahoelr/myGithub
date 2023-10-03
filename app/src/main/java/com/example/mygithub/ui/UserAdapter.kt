@@ -40,8 +40,6 @@ class UserAdapter : ListAdapter<ItemsItem, UserAdapter.MyViewHolder>(DIFF_CALLBA
                 binding.root.context.startActivity(intent)
             }
         }
-
-
     }
 
     companion object {

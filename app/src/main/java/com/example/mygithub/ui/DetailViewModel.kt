@@ -22,6 +22,7 @@ class DetailViewModel(application: Application) : ViewModel() {
     val isLoading: LiveData<Boolean>
         get() = _isLoading
 
+
     private val mFavoriteUserRepository: FavoriteRepository =
         FavoriteRepository(application)
 
