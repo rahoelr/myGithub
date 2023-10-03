@@ -14,6 +14,7 @@ import com.example.mygithub.databinding.ActivityMainBinding
 import com.example.mygithub.setting.SettingPreferences
 import com.example.mygithub.setting.ThemeSetting
 import com.example.mygithub.setting.dataStore
+import com.example.mygithub.ui.favorites.FavoriteUserAct
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 
@@ -66,6 +67,11 @@ class MainActivity : AppCompatActivity() {
         binding.fabSetting.setOnClickListener{
             val themeAct = Intent(this@MainActivity, ThemeSetting::class.java)
             startActivity(themeAct)
+        }
+
+        binding.fabFavorite.setOnClickListener{
+            val favoriteAct = Intent(this@MainActivity, FavoriteUserAct::class.java)
+            startActivity(favoriteAct)
         }
 
         viewModel.users.observe(this, Observer { users ->
