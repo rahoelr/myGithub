@@ -31,6 +31,10 @@ class ThemeSetting : AppCompatActivity() {
                 if (isChecked) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
             )
             settingViewModel.saveThemeSetting(isChecked)
+            val pref = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+            val editor = pref.edit()
+            editor.putBoolean("isDarkModeActive", isChecked)
+            editor.apply()
         }
 
         runBlocking {
