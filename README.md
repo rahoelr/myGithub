@@ -1,8 +1,8 @@
 # Github User App
  Aplikasi myGithub ini berguna untuk mecari user github. kita dapat menambahkan user favorite ke dalam database local. Data user github diambil dari API resmi yang disediakan oleh github.
 
-[![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
-
+## LINK DEMONSTRASI PROJECT
+LINK YOUTUBE = [Demonstrasi Porject](https://youtu.be/wYs7u4dv4RE)
 
 ## Features Github User App
 
@@ -28,5 +28,14 @@ Aplikasi ini dibangun dengan menggunakan :
 4. Sync project
 5. Run Project
 
+## Jika mengalami error data user tidak muncul (TOKEN EXPIRED SAAT PUSH DI REPO)
+6. Generate token github sendiri
+7. Copy paste token baru di project pada path (app->com->example->mygithub->data->retrofit->ApiConfig.kt->{AUTH_TOKEN}
+8. ganti AUTH_TOKEN dengan token yang baru
+9. Run project seperti biasa
+
 ## Requirement
 1. Minimum Target SDK : API Level 21
+
+## LINK DEMONSTRASI PROJECT
+LINK YOUTUBE = [Demonstrasi Porject](https://youtu.be/wYs7u4dv4RE)
